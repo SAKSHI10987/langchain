@@ -5,6 +5,7 @@ from youtube_transcript_api import YouTubeTranscriptApi,TranscriptsDisabled,NoTr
 from langchain_classic.text_splitter import RecursiveCharacterTextSplitter
 from langchain_classic.vectorstores import FAISS
 from langchain_core.runnables import RunnableParallel,RunnableLambda,RunnablePassthrough
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 import streamlit as st
 
@@ -56,13 +57,13 @@ if(st.button("Answer")):
     context:{context}
     question:{question}"""
     )
-    llm=HuggingFaceEndpoint(
-        repo_id="deepseek-ai/DeepSeek-V4-Pro",
-        provider="deepinfra",
-        task="text-generation",
-        temperature=0.0
-    )
-    model=ChatHuggingFace(llm=llm)
+    # llm=HuggingFaceEndpoint(
+    #     repo_id="deepseek-ai/DeepSeek-V4-Pro",
+    #     provider="deepinfra",
+    #     task="text-generation",
+    #     temperature=0.0
+    # )
+    model=ChatGroq(model="openai/gpt-oss-120b", temperature=0)
 
     parser=StrOutputParser()
     generation_chain=template|model|parser
